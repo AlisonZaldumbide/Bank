@@ -1,0 +1,77 @@
+.skeleton-table {
+    .skeleton-row {
+        display: flex;
+        align-items: center;
+        padding: 12px 8px;
+        border-bottom: 1px solid #eee;
+
+        .cell {
+            border-radius: 4px;
+            background-color: #e0e0e0;
+            height: 20px;
+            margin-right: 12px;
+
+            &.logo {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+
+            &.name {
+                width: 150px;
+            }
+
+            &.header-logo {
+                width: 40px;
+            }
+
+            &.header-logo {
+                width: 35px;
+            }
+
+            &.desc {
+                flex: 1;
+                min-width: 0;
+            }
+
+            &.date {
+                width: 120px;
+            }
+
+            &.actions {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
+        &.header .cell {
+            background-color: transparent;
+        }
+    }
+
+    .shimmer {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .shimmer::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150px;
+        width: 150px;
+        height: 100%;
+        background: linear-gradient(to right, transparent 0%, #f5f5f5 50%, transparent 100%);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -150px;
+    }
+
+    100% {
+        left: 100%;
+    }
+}

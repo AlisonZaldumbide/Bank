@@ -1,0 +1,67 @@
+<div class="product-table">
+    <div class="header-container">
+        <label class="sr-only" for="search-product">Buscar productos</label>
+        <input id="search-product" type="text" class="search-input" [ngModel]="textFilter"
+            (ngModelChange)="onSearchChange($event)" placeholder="Buscar por nombre o descripción" />
+        <button class="add-btn" (click)="addProduct()">Agregar</button>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead *ngIf="!isLoading">
+                <tr>
+                    <th>Logo</th>
+                    <th>Nombre del Producto</th>
+                    <th>Descripción <span class="info-icon">i</span></th>
+                    <th>Fecha de Liberación <span class="info-icon">i</span></th>
+                    <th>Fecha de Revisión <span class="info-icon">i</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!isLoading">
+                <tr *ngFor="let product of paginatedList()">
+                    <td>
+                        <div class="avatar">
+                            <img class="logo" [src]="product.logo" alt="Product logo" />
+                        </div>
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.date_release }}</td>
+                    <td>{{ product.date_revision }}</td>
+                    <td>
+                        <div class="dropdown-container">
+                            <button class="dropdown-toggle" (click)="toggleDropdown(product.id)">⋮</button>
+                            <div class="dropdown-menu" *ngIf="dropdownOpen == product.id">
+                                <button (click)="editProduct(product.id)">Editar</button>
+                                <button (click)="onDeleteProduct(product)">Eliminar</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="list.length === 0">
+                    <td colspan="6" class="empty-state">
+                        No se encontraron productos para los criterios de búsqueda.
+                    </td>
+                </tr>
+            </tbody>
+            <app-product-list-skeleton *ngIf="isLoading"></app-product-list-skeleton>
+        </table>
+    </div>
+
+    <div class="table-footer">
+        <span>{{list.length }} {{list.length == 1? 'Resultado': 'Resultados' }} </span>
+
+        <select [(ngModel)]="pageSize" (change)="onPageSizeChange()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+
+        <div class="pagination-controls">
+            <button (click)="previousPage()" [disabled]="currentPage === 1">←</button>
+            <span>Página {{ currentPage }} de {{ totalPages() }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages() || list.length === 0">→</button>
+        </div>
+    </div>
+
+</div>

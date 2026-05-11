@@ -1,0 +1,65 @@
+<div class="form-container">
+    <h2>{{ id ? 'Formulario de Edición' : 'Formulario de Registro' }}</h2>
+    <form [formGroup]="form" (submit)="saveProduct()" *ngIf="!isLoading">
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label for="id">ID</label>
+                <input type="text" id="id" [ngClass]="{'invalid': getErrors('id') || getPatternError('id') || verifyAlreadyExists('id')}"
+                    formControlName="id" autocomplete="off" />
+                <span class="error" *ngIf="getErrors('id')">Este campo es requerido</span>
+                <span class="error" *ngIf="verifyAlreadyExists('id')">Este ID ya existe</span>
+                <span class="error" *ngIf="getPatternError('id')">Mínimo 3 y máximo 10 caracteres</span>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" formControlName="name"
+                    [ngClass]="{'invalid': getErrors('name') || getPatternError('name')}" autocomplete="off" />
+                <span class="error" *ngIf="getErrors('name')">Este campo es requerido</span>
+                <span class="error" *ngIf="getPatternError('name')">Mínimo 6 y máximo 100 caracteres</span>
+            </div>
+
+            <div class="form-group full">
+                <label for="description">Descripción</label>
+                <input type="text" id="description" class="invalid" formControlName="description"
+                    [ngClass]="{'invalid': getErrors('description') || getPatternError('description')}"
+                    autocomplete="off" />
+                <span class="error" *ngIf="getErrors('description')">Este campo es requerido</span>
+                <span class="error" *ngIf="getPatternError('description')">Mínimo 10 y máximo 200 caracteres</span>
+            </div>
+
+            <div class="form-group">
+                <label for="logo">Logo</label>
+                <input type="text" id="logo" class="invalid" formControlName="logo"
+                    [ngClass]="{'invalid': getErrors('logo')}" autocomplete="off" />
+                <span class="error" *ngIf="getErrors('logo')">Este campo es requerido</span>
+            </div>
+
+            <div class="form-group">
+                <label for="release">Fecha Liberación</label>
+                <input type="date" id="release" formControlName="date_release" [min]="minDate"
+                    [ngClass]="{'invalid': getErrors('date_release') || getMinDateError('date_release')}"
+                    (change)="setRevisionDate()" autocomplete="off" />
+                <span class="error" *ngIf="getErrors('date_release')">Este campo es requerido</span>
+                <span class="error" *ngIf="getMinDateError('date_release')">La fecha no puede ser anterior a hoy</span>
+            </div>
+
+            <div class="form-group">
+                <label for="revision">Fecha Revisión</label>
+                <input type="date" id="revision" class="disabled" formControlName="date_revision"
+                    [ngClass]="{'invalid': getRevisionDateError()}" />
+                <span class="error" *ngIf="getRevisionDateError()">
+                    La fecha de revisión debe ser exactamente un año posterior a la fecha de liberación
+                </span>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" [ngClass]="{'active': form.dirty }" class="btn-reset" (click)="resetForm()"
+                [disabled]="!form.dirty">Reiniciar</button>
+            <button type="submit" class="btn-submit">{{ id ? 'Actualizar' : 'Agregar' }}</button>
+        </div>
+    </form>
+    <app-product-form-skeleton *ngIf="isLoading"></app-product-form-skeleton>
+</div>

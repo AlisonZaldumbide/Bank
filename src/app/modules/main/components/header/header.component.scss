@@ -1,0 +1,21 @@
+.bank-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: white;
+
+    .bank-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+
+    .bank-title {
+        margin-left: 10px;
+        font-size: 18px;
+        font-weight: 500;
+        color: #1c2a5c;
+        font-family: 'Roboto Slab', serif;
+    }
+}
